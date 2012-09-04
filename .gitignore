@@ -1,0 +1,6 @@
+configuration.inc
+.DS_Store
+*.tmproj
+*.svn
+/data/media/*
+/data/sessions/*
