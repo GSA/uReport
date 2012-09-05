@@ -128,6 +128,47 @@ class CategoriesController extends Controller
 	}	
 	
 	
+	public function savedefinitions()
+	{
+		
+		// Return internal JSON format for service definition
+			
+		// Load the $category for editing
+		if (isset($_REQUEST['category_id']) && $_REQUEST['category_id']) {
+			try {
+				$category = new Category($_REQUEST['category_id']);
+			}
+			catch (Exception $e) {
+				$_SESSION['errorMessages'][] = $e;
+				header('Location: '.BASE_URL.'/categories');
+				exit();
+			}
+		}	
+		
+		if (isset($_REQUEST['frmb'])) {
+			try {
+				
+				$form = $_REQUEST['frmb'];
+								
+				$category = new Category($_REQUEST['form_id']);				
+				$category->setCustomFields(json_encode($_REQUEST['frmb']));
+				
+				//$category->handleUpdate($_POST);
+				$category->save();
+				echo 'success';
+				//header('Location: '.BASE_URL.'/categories');
+				exit();
+			}
+			catch (Exception $e) {
+				$_SESSION['errorMessages'][] = $e;
+			}
+		}		
+		
+		
+	}	
+	
+	
+	
 
 	/**
 	 * Displays the list of all the categories

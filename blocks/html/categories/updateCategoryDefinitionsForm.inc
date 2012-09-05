@@ -5,7 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Category $this->category
  */
-$title = $this->category->getId() ? 'Edit Category' : 'Add Category';
+$title = $this->category->getId() ? 'Edit Category Definitions' : 'Add Category';
 
 $fields = array(
 	'name', 'description', 'postingPermissionLevel', 'displayPermissionLevel',
@@ -24,8 +24,8 @@ $custom_fields = isset($_POST['custom_fields'])
 <script>
 	$(function(){
 		$('#my-form-builder').formbuilder({
-			'save_url': 'example-save.php',
-			'load_url': 'example-json.php<?php echo '?form_id=' . $_REQUEST['form_id'];?>',
+			'save_url': '/categories/savedefinitions',
+			'load_url': '/categories/getdefinitions?category_id=<?php echo $_REQUEST['category_id'];?>',
 			'useJson' : true
 		});
 		$(function() {
@@ -38,49 +38,30 @@ $custom_fields = isset($_POST['custom_fields'])
 <form method="post" action="<?php echo BASE_URL; ?>/categories/update">
 	<fieldset><legend>Category</legend>
 		<input name="category_id" type="hidden" value="<?php echo $this->category->getId(); ?>" />
-		<table>
-			<tr><td><label for="name" class="required">Name</label></td>
-				<td><input name="name" id="name" value="<?php echo $name; ?>" /></td>
-			</tr>
-			<tr><td><label for="categoryGroup_id">Group</label></td>
-				<td><select name="categoryGroup_id" id="categoryGroup_id">
-					<?php
-						$groups = new CategoryGroupList();
-						$groups->find();
-						foreach ($groups as $group) {
-							$selected = $categoryGroup_id==$group->getId()
-								? 'selected="selected"'
-								: '';
-							$name = View::escape($group->getName());
-							echo "<option value=\"{$group->getId()}\" $selected>$name</option>";
-						}
-					?>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<div>
-			<div><label for="description">Description</label></div>
-			<textarea name="description" id="description" rows="3" cols="50"><?php echo $description; ?></textarea>
-		</div>
-		<div>
-			<div><label for="department_id">Default Department Assignment</label></div>
-			<select name="department_id" id="department_id">
-			<?php
-				$list = new DepartmentList();
-				$list->find();
-				foreach ($list as $department) {
-					$selected = $department->getId()==$department_id
-						? 'selected="selected"'
-						: '';
-					$name = View::escape($department->getName());
-					echo "<option value=\"{$department->getId()}\" $selected >$name</option>";
-				}
-			?>
-			</select>
-		</div>
+		
+		<?php 
 
-		<button type="submit" class="submit">Submit</button>
+		
+		echo "
+		<h2>$name</h2>
+		<p>$description</p>
+		<table>
+			<tr><th>Category Group</th>
+				<td>$group</td>
+			</tr>
+			<tr><th>Default Department</th>
+				<td>$department</td>
+			</tr>
+			<tr><th>Display Permission Level</th>
+				<td>{$this->category->getDisplayPermissionLevel()}</td>
+			</tr>
+			<tr><th>Posting Permission Level</th>
+				<td>{$this->category->getPostingPermissionLevel()}</td>
+			</tr>
+		</table>";
+		?>
+
+		<div id="my-form-builder"></div>
 		<a class="cancel" href="<?php echo BASE_URL; ?>/categories">Cancel</a>
 	</fieldset>
 </form>

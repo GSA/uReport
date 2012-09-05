@@ -41,6 +41,11 @@
 					href=\"".BASE_URI."/categories/update?category_id={$category->getId()}\">
 					Edit
 				</a>
+				  
+				<a class=\"edit button\"
+					href=\"".BASE_URI."/categories/definitions?category_id={$category->getId()}\">
+					Definitions
+				</a>				
 				";
 			}
 			$name              = View::escape($category->getName());

@@ -8,7 +8,10 @@
 // Category customFields are Open311 attributes
 // We adopted the Open311 standard for this feature
 header("Content-Type: application/json");
-print json_encode($this->category->getCustomFields());
+
+$definition = array('id'=>$this->category->getId(), 'form_structure'=>$this->category->getCustomFields());
+
+print json_encode($definition);
 
 
 

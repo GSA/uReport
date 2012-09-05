@@ -19,6 +19,8 @@ foreach ($fields as $field) {
 $custom_fields = isset($_POST['custom_fields'])
 	? View::escape($_POST['custom_fields'])
 	: json_encode($this->category->getCustomFields());
+	
+$custom_fields = ($custom_fields == 'null') ? '' : $custom_fields;
 ?>
 <h1><?php echo $title; ?></h1>
 <form method="post" action="<?php echo BASE_URL; ?>/categories/update">
@@ -93,7 +95,9 @@ $custom_fields = isset($_POST['custom_fields'])
 				</option>
 			</select>
 		</div>
-		<div>
+	
+
+		<div style="display:none">
 			<div><label for="custom_fields">Custom Fields</label></div>
 			<textarea name="custom_fields" id="custom_fields" rows="30" cols="50"><?php echo $custom_fields; ?></textarea>
 			<div><p>Custom fields are defined in JSON.
@@ -130,6 +134,7 @@ $custom_fields = isset($_POST['custom_fields'])
 				</pre></code>
 			</div>
 		</div>
+
 		<button type="submit" class="submit">Submit</button>
 		<a class="cancel" href="<?php echo BASE_URL; ?>/categories">Cancel</a>
 	</fieldset>
