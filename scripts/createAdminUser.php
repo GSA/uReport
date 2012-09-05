@@ -21,12 +21,12 @@ include '../configuration.inc';
 $person = new Person();
 
 // Fill these out as needed
-$person->setFirstname('Admin');
-$person->setLastname('Person');
-$person->setEmail('admin@localhost');
-$person->setUsername('administrator');
+$person->setFirstname('Philip');
+$person->setLastname('Ashlock');
+$person->setEmail('phil@civicagency.org');
+$person->setUsername('philipashlock');
 $person->setAuthenticationMethod('local');
-$person->setPassword('');
+$person->setPassword('password');
 
 // No more changes needed
 $person->setRole('Administrator');
