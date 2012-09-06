@@ -17,24 +17,75 @@ if ($customFields) {
 				$values[] = array('key'=>$value,'name'=>$value);
 			}
 		}
-		$order = $i+1;
-		$code  = $d->name;
-		$datatype    = isset($d->type)     ? $d->type     : 'string';
-		$description = isset($d->label)    ? $d->label    : $code;
-		$required    = isset($d->required) ? $d->required : false;
-		$attributes[] = array(
-			'variable'=>true,
-			'code'=>$code,
-			'order'=>$order,
-			'datatype'=>$datatype,
-			'datatype_description'=>'',
-			'required'=>$required,
-			'description'=>$description,
-			'values'=>$values
-		);
+	
+
+		// this should be user provided, just faking it now			
+		$new_attributes['variable'] 			= true;
+		
+		// this should be user provided, just faking it now
+		$code_temp 								= (strlen($d->title)) ? $d->title : $d->values;
+		$new_attributes['code'] 				= str_replace(' ', '-', strtolower($code_temp));
+		
+		// the order is actually set by the user, but it only comes in as the order of the array, not explicit values. Let's fix that
+		$new_attributes['order'] 				= $i+1;
+		
+		// filter the names of form field types
+		switch ($d->cssClass) {
+			case 'select':
+				if ($d->multiple == 'checked') {
+					$new_attributes['datatype'] = 'multivaluelist';
+					$new_attributes['datatype_description'] = 'Select an option';	
+				} else {
+					$new_attributes['datatype'] = 'singlevaluelist';						
+					$new_attributes['datatype_description'] = 'Select one or more options';
+				}
+				break;
+			case 'radio':
+				$new_attributes['datatype'] = 'singlevaluelist';
+				$new_attributes['datatype_description'] = 'Select an option';
+				break;
+			case 'checkbox':
+				$new_attributes['datatype'] = 'multivaluelist';
+				$new_attributes['datatype_description'] = 'Select one or more options';
+				break;
+			case 'input_text':
+				$new_attributes['datatype'] = 'string';
+				$new_attributes['datatype_description'] = 'Short text response';
+				break;
+			case 'textarea':
+				$new_attributes['datatype'] = 'text';
+				$new_attributes['datatype_description'] = 'Long text response';					
+				break;					
+		}
+		
+		// this should be user provided, just faking it now and drawing from datatype conventions set above
+		//$new_attributes['datatype_description'] = '';	
+									
+		$new_attributes['required'] 			= ($d->required == 'checked') ? true : false;					
+		$new_attributes['description'] 			= ($new_attributes['datatype'] == 'text' || $new_attributes['datatype'] == 'string') ? $d->values : $d->title;
+		
+		$option_values 							= $d->values;			
+		$new_attributes['values'] 				= null;					
+		
+		
+		if ($new_attributes['datatype'] !== 'text' && $new_attributes['datatype'] !== 'string') {
+			foreach ($option_values as $option) {
+			
+				// should be user provided, just faking it now
+				$key = null;
+				$key = str_replace(' ', '-', strtolower($option->value));
+			
+				$new_attributes['values'][] = array('key' => $key, 'name' => $option->value);
+				
+			}		
+		}
+
+
+
 	}
 }
+header("Content-Type: application/json");
 echo json_encode(array(
 	'service_code' => (string)$this->category->getId(),
-	'attributes'   => $attributes
+	'attributes'   => $new_attributes
 ));
