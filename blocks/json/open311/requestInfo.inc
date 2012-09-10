@@ -45,4 +45,5 @@ $request = array(array(
 	'long'=>$this->ticket->getLongitude(),
 	'media_url'=>$media_url
 ));
+header("Content-Type: application/json");
 echo json_encode($request);

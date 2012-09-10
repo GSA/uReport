@@ -52,5 +52,5 @@ foreach ($this->ticketList as $t) {
 		'media_url'         =>$media_url
 	);
 }
-
+header("Content-Type: application/json");
 echo json_encode($service_requests);

@@ -26,4 +26,5 @@ $discovery = array(
 		)
 	)
 );
+header("Content-Type: application/json");
 echo json_encode($discovery);

@@ -17,4 +17,5 @@ foreach ($this->categoryList as $category) {
 		'group'=>"{$category->getCategoryGroup()}"
 	);
 }
+header("Content-Type: application/json");
 echo json_encode($services);
