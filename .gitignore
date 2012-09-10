@@ -4,3 +4,4 @@ configuration.inc
 *.svn
 /data/media/*
 /data/sessions/*
+/scripts/createAdminUser.php
