@@ -44,7 +44,7 @@
 				  
 				<a class=\"edit button\"
 					href=\"".BASE_URI."/categories/definitions?category_id={$category->getId()}\">
-					Definitions
+					Form Fields
 				</a>				
 				";
 			}

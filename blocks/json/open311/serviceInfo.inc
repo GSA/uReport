@@ -17,7 +17,9 @@ if ($customFields) {
 				$values[] = array('key'=>$value,'name'=>$value);
 			}
 		}
-	
+		
+		// reset the array
+		$new_attributes = array();
 
 		// this should be user provided, just faking it now			
 		$new_attributes['variable'] 			= true;
@@ -79,6 +81,8 @@ if ($customFields) {
 				
 			}		
 		}
+		
+		$attributes[] = $new_attributes;
 
 
 
@@ -87,5 +91,5 @@ if ($customFields) {
 header("Content-Type: application/json");
 echo json_encode(array(
 	'service_code' => (string)$this->category->getId(),
-	'attributes'   => $new_attributes
+	'attributes'   => $attributes
 ));
