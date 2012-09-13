@@ -25,7 +25,7 @@ $custom_fields = isset($_POST['custom_fields'])
 	$(function(){
 		$('#my-form-builder').formbuilder({
 			'save_url': '/categories/savedefinitions',
-			'load_url': '/categories/getdefinitions?category_id=<?php echo $_REQUEST['category_id'];?>',
+			'load_url': '/categories/getdefinitions?format=json&category_id=<?php echo $_REQUEST['category_id'];?>',
 			'useJson' : true
 		});
 		$(function() {
